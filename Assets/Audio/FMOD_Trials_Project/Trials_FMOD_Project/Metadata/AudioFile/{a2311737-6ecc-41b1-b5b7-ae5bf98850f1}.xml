@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{a2311737-6ecc-41b1-b5b7-ae5bf98850f1}">
+        <property name="assetPath">
+            <value>hello_world.mp3</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>1.3200000000000001</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{fbeb68d4-32b6-4594-ac68-12c7c23b2491}</destination>
+        </relationship>
+    </object>
+</objects>
