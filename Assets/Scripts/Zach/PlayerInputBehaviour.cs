@@ -12,23 +12,38 @@ namespace Zach
 
         public GameEvent OpenMenu;
         public GameEvent CloseMenu;
-        private bool MenuOpen = false;
+        public bool MenuOpen { get; set; }
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetButtonDown("Interact") && currentInteraction != null)
+            if (Input.GetButtonDown("Submit") && currentInteraction != null)
             {
                 currentInteraction.Interact(this);
                 InteractionState = currentInteraction == null ? "available" : "interacting";
             }
-            else if (Input.GetKeyDown(KeyCode.X) && currentInteraction != null)
+
+            if (Input.GetButtonDown("Cancel") && currentInteraction != null)
             {
                 currentInteraction.StopInteraction();
                 InteractionState = currentInteraction == null ? "available" : "interacting";
             }
-            else if (Input.GetButtonDown("Pause"))
+
+            if (Input.GetButtonDown("Pause"))
             {
-                OpenMenu.Raise();
+                
+                if (MenuOpen)
+                {
+                    
+                    CloseMenu.Raise();
+                }
+                    
+                else
+                {
+                    
+                    OpenMenu.Raise();
+                }
+                MenuOpen = !MenuOpen;
+
             }
         }
     }
