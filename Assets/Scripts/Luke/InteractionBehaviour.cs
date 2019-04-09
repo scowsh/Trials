@@ -15,7 +15,10 @@ namespace Luke
         public string TriggerTag;
         [TextArea]
         public string readme;
-
+        public GameEvent InteractionEnter;
+        public GameEvent InteractionExit;
+        public GameEvent InteractionStart;
+        public GameEvent InteractionStop;
         //public List<UnityEvent> thing;
         public UnityEvent OnInteractionResponse;
         public UnityEvent InteractStopResponse;
@@ -26,6 +29,14 @@ namespace Luke
         public UnityEvent OnTriggerExitResponse;
 
         private IInteractor _Interactor;
+
+        private void Start()
+        {
+            InteractionEnter = Resources.Load<GameEvent>("Events/InteractionEnter");
+            InteractionExit = Resources.Load<GameEvent>("Events/InteractionExit");
+            InteractionStart = Resources.Load<GameEvent>("Events/InteractionStart");
+            InteractionStop = Resources.Load<GameEvent>("Events/InteractionStop");
+        }
 
         public IInteractor Interactor
         {
@@ -43,11 +54,13 @@ namespace Luke
         {
             if (Interactor == null) return;
             if (obj != Interactor) return;
+            InteractionStart.Raise();
             Response.Invoke();
         }
 
         public void StopInteraction()
         {
+            InteractionStop.Raise();
             InteractStopResponse.Invoke();
         }
         /// <summary>
@@ -56,10 +69,12 @@ namespace Luke
         /// <param name="other"></param>
         public void OnTriggerEnter(Collider other)
         {
+            
             if (!other.CompareTag(TriggerTag)) return;
             Interactor = other.GetComponent<IInteractor>();
             if (Interactor == null) return;
             Interactor.SetInteraction(this);
+            InteractionEnter.Raise();
             OnTriggerEnterResponse.Invoke();
         }
 
@@ -70,7 +85,9 @@ namespace Luke
             if (!other.CompareTag(TriggerTag)) return;
 
             Interactor.ReleaseInteraction(this);
+            InteractionExit.Raise();
             OnTriggerExitResponse.Invoke();
+            
         }
     }
 }
